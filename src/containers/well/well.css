@@ -1,0 +1,15 @@
+.container {
+  display: grid;
+  grid-template: repeat(20, 1fr) / repeat(20, 1fr);
+  width: 100%;
+  height: 90vmin;
+  max-width: 400px;
+  margin: auto;
+}
+
+.box {
+  box-shadow: inset 0 0 0 0.1125vmin black;
+  background: #bada55;
+  grid-column: 3 / span 2;
+  grid-row: 3 / 8;
+}
