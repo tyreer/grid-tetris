@@ -1,0 +1,11 @@
+.vertical {
+  grid-column: 3 / span 1;
+  grid-row: 3 / span 6;
+  background: #c5fab0;
+}
+
+.horizontal {
+  grid-column: 3 / span 2;
+  grid-row: 7 / span 2;
+  background: #c5fab0;
+}

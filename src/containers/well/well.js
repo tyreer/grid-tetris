@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import "./well.css";
 
-class App extends Component {
+import TerminoL from "../../components/terminoL";
+
+class Well extends Component {
   render() {
     return (
-      <div className="container">
-        <div class="box">1</div>
+      <div className="well">
+        <TerminoL />
       </div>
     );
   }
 }
 
-export default App;
+export default Well;
