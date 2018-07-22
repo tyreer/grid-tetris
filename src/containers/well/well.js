@@ -7,7 +7,8 @@ class Well extends Component {
   state = {
     spacesOpen: [],
     spacesOccupied: [],
-    next: false
+    next: false,
+    terminos: [1]
   };
 
   // RANGE
@@ -140,9 +141,15 @@ class Well extends Component {
       // );
     }
 
+    const newTerminos = this.state.terminos;
+    const terminoLength = newTerminos.length - 1;
+    const newId = newTerminos[terminoLength] + 1;
+    newTerminos.push(newId);
+
     this.setState({
       spacesOpen: newSpacesOpen,
-      next: true
+      next: true,
+      terminos: newTerminos
     });
   };
 
@@ -150,10 +157,13 @@ class Well extends Component {
     return (
       <div className="well">
         {this.state.spacesOpen}
-        <TerminoLContainer id="1" updateOccupied={this.updateOccupied} />
-        {this.state.next && (
-          <TerminoLContainer id="2" updateOccupied={this.updateOccupied} />
-        )}
+        {this.state.terminos.map(terminoId => (
+          <TerminoLContainer
+            key={terminoId}
+            id={terminoId}
+            updateOccupied={this.updateOccupied}
+          />
+        ))}
       </div>
     );
   }

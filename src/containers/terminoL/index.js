@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { func, string } from "prop-types";
+import { func, number } from "prop-types";
 
 import TerminoL from "../../components/terminoL";
 
 class TerminoLContainer extends Component {
   static propTypes = {
     spacesToOccupy: func,
-    id: string
+    id: number
   };
 
   state = {
