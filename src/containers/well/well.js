@@ -76,33 +76,71 @@ class Well extends Component {
   }
 
   updateOccupied = spacesToOccupy => {
-    const { startingRow, height, length } = spacesToOccupy;
-    const newSpacesOccupied = this.state.spacesOccupied;
+    const { startingRow, height, length, startingColumn } = spacesToOccupy;
+    // const newSpacesOccupied = this.state.spacesOccupied;
     let newSpacesOpen = this.state.spacesOpen;
 
     for (let row = startingRow; row <= startingRow + height; row++) {
       const style = {
-        gridArea: `${row} / 2 / span 1 / span 1`,
-        background: "green",
-        border: "1px solid lightgrey"
+        gridArea: `${row} / ${startingColumn} / span 1 / span 1`,
+        background: "#c5fab0",
+        border: "1px solid darkgrey"
       };
 
       const squareGoneIndex = newSpacesOpen.findIndex(
-        square => square.props.id === `col2/row${row}`
+        square => square.props.id === `col${startingColumn}/row${row}`
       );
 
       newSpacesOpen = [
         ...newSpacesOpen.slice(0, squareGoneIndex),
+        <span
+          key={`col${startingColumn}/row${row}`}
+          id={`col${startingColumn}/row${row}`}
+          style={style}
+        />,
         ...newSpacesOpen.slice(squareGoneIndex + 1)
       ];
 
-      newSpacesOccupied.push(
-        <span key={`col2/row${row}`} id={`col2/row${row}`} style={style} />
+      // newSpacesOccupied.push(
+      //   <span
+      //     key={`col${startingColumn}/row${row}`}
+      //     id={`col${startingColumn}/row${row}`}
+      //     style={style}
+      //   />
+      // );
+    }
+
+    for (let col = startingColumn; col <= startingColumn + length - 1; col++) {
+      const style = {
+        gridArea: `${startingRow + height} / ${col} / span 1 / span 1`,
+        background: "#c5fab0",
+        border: "1px solid darkgrey"
+      };
+
+      const squareGoneIndex = newSpacesOpen.findIndex(
+        square => square.props.id === `col${col}/row${startingRow + height}`
       );
+
+      newSpacesOpen = [
+        ...newSpacesOpen.slice(0, squareGoneIndex),
+        <span
+          key={`col${col}/row${startingRow + height}`}
+          id={`col${col}/row${startingRow + height}`}
+          style={style}
+        />,
+        ...newSpacesOpen.slice(squareGoneIndex + 1)
+      ];
+
+      // newSpacesOccupied.push(
+      //   <span
+      //     key={`col${startingColumn}/row${row}`}
+      //     id={`col${startingColumn}/row${row}`}
+      //     style={style}
+      //   />
+      // );
     }
 
     this.setState({
-      spacesOccupied: newSpacesOccupied,
       spacesOpen: newSpacesOpen,
       next: true
     });
@@ -112,10 +150,9 @@ class Well extends Component {
     return (
       <div className="well">
         {this.state.spacesOpen}
-        {this.state.spacesOccupied}
-        <TerminoLContainer updateOccupied={this.updateOccupied} />
+        <TerminoLContainer id="1" updateOccupied={this.updateOccupied} />
         {this.state.next && (
-          <TerminoLContainer updateOccupied={this.updateOccupied} />
+          <TerminoLContainer id="2" updateOccupied={this.updateOccupied} />
         )}
       </div>
     );
