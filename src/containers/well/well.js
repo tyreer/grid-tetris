@@ -8,7 +8,8 @@ class Well extends Component {
     spacesOpen: [],
     spacesOccupied: [],
     next: false,
-    terminos: [1]
+    terminos: [1],
+    gameOver: false
   };
 
   // RANGE
@@ -78,6 +79,11 @@ class Well extends Component {
 
   updateOccupied = spacesToOccupy => {
     const { startingRow, height, length, startingColumn } = spacesToOccupy;
+
+    if (startingRow < height) {
+      this.setState({ gameOver: true });
+    }
+
     // const newSpacesOccupied = this.state.spacesOccupied;
     let newSpacesOpen = this.state.spacesOpen;
 
@@ -154,17 +160,27 @@ class Well extends Component {
   };
 
   render() {
+    const { gameOver } = this.state;
     return (
-      <div className="well">
-        {this.state.spacesOpen}
-        {this.state.terminos.map(terminoId => (
-          <TerminoLContainer
-            key={terminoId}
-            id={terminoId}
-            updateOccupied={this.updateOccupied}
-          />
-        ))}
-      </div>
+      <React.Fragment>
+        {!gameOver && (
+          <div className="well">
+            {this.state.spacesOpen}
+            {this.state.terminos.map(terminoId => (
+              <TerminoLContainer
+                key={terminoId}
+                id={terminoId}
+                updateOccupied={this.updateOccupied}
+              />
+            ))}
+          </div>
+        )}
+        {gameOver && (
+          <div className="well">
+            <h1 className="gameOver">GAME OVER</h1>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 }

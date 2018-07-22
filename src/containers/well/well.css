@@ -8,3 +8,10 @@
   border: 1px solid;
   background: black;
 }
+
+.gameOver {
+  color: white;
+  grid-area: 14 / 1 / span 4 / span 21;
+  background: red;
+  text-align: center;
+}
