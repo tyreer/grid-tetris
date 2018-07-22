@@ -18,8 +18,6 @@ class TerminoLContainer extends Component {
 
   constDownwardTimer;
 
-  shapeDimensions = { vLength: 6, hLength: 2 };
-
   componentDidMount() {
     this.constDownwardTimer = setInterval(() => {
       this.moveDown();
@@ -33,10 +31,10 @@ class TerminoLContainer extends Component {
 
     let checks = [];
 
-    for (let x = 0; x <= this.shapeDimensions.hLength; x++) {
+    for (let x = 0; x <= this.props.shapeDimensions.hLength; x++) {
       const thisCheck = document.getElementById(
         `col${this.state.column + x}/row${this.state.startingRow +
-          this.shapeDimensions.vLength +
+          this.props.shapeDimensions.vLength +
           1}`
       );
       checks.push(thisCheck);
@@ -45,7 +43,7 @@ class TerminoLContainer extends Component {
     let stop = false;
 
     checks.map(check => {
-      if (check.style.backgroundColor !== "red") {
+      if (check.style.backgroundColor !== "black") {
         stop = true;
       }
     });
@@ -76,6 +74,20 @@ class TerminoLContainer extends Component {
         newColumn = newColumn + 1;
         this.setState({ column: newColumn });
       }
+    } else if (key === 32) {
+      //   const newDimensions = this.props.shapeDimensions;
+      //   if (!this.state.rotated) {
+      //     newDimensions.vLength = this.props.shapeDimensions.hLength + 1;
+      //     newDimensions.hLength = this.props.shapeDimensions.vLength + 1;
+      //   } else {
+      //     console.log(this.props.shapeDimensions.hLength);
+      //     newDimensions.hLength = this.props.shapeDimensions.vLength + 1;
+      //     newDimensions.vLength = this.props.shapeDimensions.hLength + 2;
+      //   }
+      //   this.setState({
+      // props.shapeDimensions: newDimensions,
+      //     rotated: !this.state.rotated
+      //   });
     }
   };
 
@@ -96,7 +108,7 @@ class TerminoLContainer extends Component {
             startingRow={this.state.startingRow}
             column={this.state.column}
             id={this.props.id}
-            shapeDimensions={this.shapeDimensions}
+            shapeDimensions={this.props.shapeDimensions}
           />
         )}
       </React.Fragment>

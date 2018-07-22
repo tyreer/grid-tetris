@@ -26,7 +26,7 @@ class Well extends Component {
         const style = {
           gridColumn: `${col} / span 1`,
           gridRow: `${row} / span 1`,
-          background: "red",
+          background: "black",
           border: "1px solid white"
         };
         spaces.push(
@@ -44,10 +44,13 @@ class Well extends Component {
         gridColumn: "1 / span 1",
         gridRow: `${row} / span 1`,
         background: "black",
-        border: "1px solid red"
+        color: "#c5fab0",
+        textAlign: "center"
       };
       spaces.push(
-        <span key={`col1/row${row}`} id={`col1/row${row}`} style={style} />
+        <span key={`col1/row${row}`} id={`col1/row${row}`} style={style}>
+          {`<!`}
+        </span>
       );
     }
 
@@ -55,11 +58,15 @@ class Well extends Component {
       const style = {
         gridColumn: `${col} / span 1`,
         gridRow: `30 / span 1`,
-        background: "black",
-        border: "1px solid red"
+        background: "#000",
+        color: "#c5fab0",
+        textAlign: "center",
+        position: "relative"
       };
       spaces.push(
-        <span key={`col${col}/row30`} id={`col${col}/row30`} style={style} />
+        <span key={`col${col}/row30`} id={`col${col}/row30`} style={style}>
+          =
+        </span>
       );
     }
 
@@ -68,10 +75,13 @@ class Well extends Component {
         gridColumn: "21 / span 1",
         gridRow: `${row} / span 1`,
         background: "black",
-        border: "1px solid red"
+        color: "#c5fab0",
+        textAlign: "center"
       };
       spaces.push(
-        <span key={`col21/row${row}`} id={`col21/row${row}`} style={style} />
+        <span key={`col21/row${row}`} id={`col21/row${row}`} style={style}>
+          {`!>`}
+        </span>
       );
     }
     this.setState({ spacesOpen: spaces });
@@ -159,6 +169,8 @@ class Well extends Component {
     });
   };
 
+  terminoOptions = [{ vLength: 6, hLength: 2 }, { vLength: 4, hLength: 4 }];
+
   render() {
     const { gameOver } = this.state;
     return (
@@ -166,13 +178,18 @@ class Well extends Component {
         {!gameOver && (
           <div className="well">
             {this.state.spacesOpen}
-            {this.state.terminos.map(terminoId => (
-              <TerminoLContainer
-                key={terminoId}
-                id={terminoId}
-                updateOccupied={this.updateOccupied}
-              />
-            ))}
+            {this.state.terminos.map(terminoId => {
+              // console.log(terminoId % 2);
+              // console.log(this.terminoOptions[terminoId % 2]);
+              return (
+                <TerminoLContainer
+                  key={terminoId}
+                  id={terminoId}
+                  updateOccupied={this.updateOccupied}
+                  shapeDimensions={this.terminoOptions[0]}
+                />
+              );
+            })}
           </div>
         )}
         {gameOver && (
