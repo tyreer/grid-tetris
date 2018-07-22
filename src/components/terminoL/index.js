@@ -1,9 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const terminoL = ({ startingRow, column, id }) => {
-  const shapeDimensions = { vLength: 6, hLength: 2 };
-
+const terminoL = ({ startingRow, column, id, shapeDimensions }) => {
   let verticalElementArray = [];
 
   for (let x = 1; x <= shapeDimensions.vLength; x++) {

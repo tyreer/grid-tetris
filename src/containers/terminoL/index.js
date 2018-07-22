@@ -18,6 +18,8 @@ class TerminoLContainer extends Component {
 
   constDownwardTimer;
 
+  shapeDimensions = { vLength: 6, hLength: 2 };
+
   componentDidMount() {
     this.constDownwardTimer = setInterval(() => {
       this.moveDown();
@@ -28,24 +30,27 @@ class TerminoLContainer extends Component {
 
   componentDidUpdate() {
     //Id of one below current element
-    const check = document.getElementById(
-      `col${this.state.column}/row${this.state.startingRow + 7}`
-    );
 
-    const check2 = document.getElementById(
-      `col${this.state.column + 1}/row${this.state.startingRow + 7}`
-    );
+    let checks = [];
 
-    const check3 = document.getElementById(
-      `col${this.state.column + 2}/row${this.state.startingRow + 7}`
-    );
+    for (let x = 0; x <= this.shapeDimensions.hLength; x++) {
+      const thisCheck = document.getElementById(
+        `col${this.state.column + x}/row${this.state.startingRow +
+          this.shapeDimensions.vLength +
+          1}`
+      );
+      checks.push(thisCheck);
+    }
 
-    if (
-      !this.state.settled &&
-      (check.style.backgroundColor !== "red" ||
-        check2.style.backgroundColor !== "red" ||
-        check3.style.backgroundColor !== "red")
-    ) {
+    let stop = false;
+
+    checks.map(check => {
+      if (check.style.backgroundColor !== "red") {
+        stop = true;
+      }
+    });
+
+    if (!this.state.settled && stop) {
       const newDone = this.state.done;
       newDone.push(this.props.id);
       this.setState({ settled: true, done: newDone });
@@ -91,6 +96,7 @@ class TerminoLContainer extends Component {
             startingRow={this.state.startingRow}
             column={this.state.column}
             id={this.props.id}
+            shapeDimensions={this.shapeDimensions}
           />
         )}
       </React.Fragment>
