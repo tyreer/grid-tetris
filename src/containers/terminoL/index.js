@@ -1,10 +1,16 @@
 import React, { Component } from "react";
+import { func } from "prop-types";
 
 import TerminoL from "../../components/terminoL";
 
 class TerminoLContainer extends Component {
+  static propTypes = {
+    spacesToOccupy: func
+  };
+
   state = {
-    vertical: 0
+    startingRow: 0,
+    settled: false
   };
 
   hereSpans = [];
@@ -18,25 +24,36 @@ class TerminoLContainer extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.vertical > 470) {
+    //Id of one below current element
+    const check = document.getElementById(
+      `col2/row${this.state.startingRow + 7}`
+    );
+
+    if (!this.state.settled && check.style.backgroundColor !== "red") {
+      this.setState({ settled: true });
       clearInterval(this.constDownwardTimer);
+      this.props.updateOccupied({
+        startingRow: this.state.startingRow + 1,
+        height: 5,
+        length: 3
+      });
     }
   }
 
   moveDown = () => {
-    let newVertical = this.state.vertical;
-    newVertical += 10;
-    this.setState({ vertical: newVertical });
+    let newStartingRow = this.state.startingRow;
+    newStartingRow += 1;
+    this.setState({ startingRow: newStartingRow });
 
-    for (let x = 0; x < this.hereSpans.length; x++) {
-      this.hereSpans[x].style.transform = `TranslateY(${
-        this.state.vertical
-      }px)`;
-    }
+    // for (let x = 0; x < this.hereSpans.length; x++) {
+    //   this.hereSpans[x].style.transform = `TranslateY(${
+    //     this.state.vertical
+    //   }px)`;
+    // }
   };
 
   render() {
-    return <TerminoL />;
+    return <TerminoL startingRow={this.state.startingRow} />;
   }
 }
 
