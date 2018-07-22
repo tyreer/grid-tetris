@@ -10,10 +10,13 @@ const terminoL = () => {
     const style = {
       gridColumn: "0 / span 1",
       gridRow: `${0 + x} / span 1`,
-      background: "#c5fab0"
+      background: "#c5fab0",
+      border: "1px solid darkgrey"
     };
 
-    verticalElementArray.push(<span style={style} />);
+    verticalElementArray.push(
+      <span key={`vertical${x}`} className="activeTermino" style={style} />
+    );
   }
 
   let horizontalElementArray = [];
@@ -22,10 +25,13 @@ const terminoL = () => {
     const style = {
       gridColumn: `${1 + x} / span 1`,
       gridRow: `${shapeDimensions.vLength} / span 1`,
-      background: "#c5fab0"
+      background: "#c5fab0",
+      border: "1px solid darkgrey"
     };
 
-    horizontalElementArray.push(<span style={style} />);
+    horizontalElementArray.push(
+      <span key={`horizontal${x}`} className="activeTermino" style={style} />
+    );
   }
 
   return (
