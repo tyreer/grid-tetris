@@ -225,7 +225,7 @@ class Well extends Component {
       <React.Fragment>
         <audio id="theme" src={theme} />
         {startWait && (
-          <button className="gameOver" onClick={this.handleStart}>
+          <button className="play" onClick={this.handleStart}>
             PLAY
           </button>
         )}

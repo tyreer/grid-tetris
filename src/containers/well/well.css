@@ -3,9 +3,16 @@
   grid-template: repeat(30, 1fr) / repeat(19, 1fr);
 }
 
-.gameOver {
+.gameOver,
+.play {
   color: white;
   grid-area: 14 / 1 / span 4 / span 21;
   background: red;
   text-align: center;
+}
+
+.play {
+  font-size: 30px;
+  padding: 20px;
+  cursor: pointer;
 }
