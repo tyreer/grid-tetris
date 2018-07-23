@@ -14,7 +14,7 @@ class TerminoLContainer extends Component {
   state = {
     startingRow: 0,
     settled: false,
-    column: 2,
+    column: Math.floor(Math.random() * 18) + 2,
     done: []
   };
 
