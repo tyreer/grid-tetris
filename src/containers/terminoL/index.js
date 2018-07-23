@@ -17,6 +17,8 @@ class TerminoLContainer extends Component {
   };
 
   constDownwardTimer;
+  moveAudio;
+  dropAudio;
 
   componentDidMount() {
     this.constDownwardTimer = setInterval(() => {
@@ -24,6 +26,8 @@ class TerminoLContainer extends Component {
     }, 200);
 
     window.addEventListener("keydown", e => this.handleKeydown(e.keyCode));
+    this.moveAudio = document.getElementById("move");
+    this.dropAudio = document.getElementById("drop");
   }
 
   componentDidUpdate() {
@@ -48,6 +52,8 @@ class TerminoLContainer extends Component {
     });
 
     if (!this.state.settled && stop) {
+      this.dropAudio.currentTime = 0;
+      this.dropAudio.play();
       const newDone = this.state.done;
       newDone.push(this.props.id);
       this.setState({ settled: true, done: newDone });
@@ -67,11 +73,15 @@ class TerminoLContainer extends Component {
       if (newColumn > 2) {
         newColumn = newColumn - 1;
         this.setState({ column: newColumn });
+        this.moveAudio.currentTime = 0;
+        this.moveAudio.play();
       }
     } else if (key === 39) {
       if (newColumn < 17) {
         newColumn = newColumn + 1;
         this.setState({ column: newColumn });
+        this.moveAudio.currentTime = 0;
+        this.moveAudio.play();
       }
     } else if (key === 32) {
       //   const newDimensions = this.props.shapeDimensions;

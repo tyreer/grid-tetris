@@ -20,6 +20,9 @@ class Well extends Component {
   // grid-row: 30 / span 1;
 
   componentDidMount() {
+    const theme = document.getElementById("theme");
+    theme.play();
+
     let spaces = [];
     for (let row = 1; row <= 29; row++) {
       for (let col = 2; col <= 19; col++) {
@@ -92,6 +95,8 @@ class Well extends Component {
 
     if (startingRow < height) {
       this.setState({ gameOver: true });
+      const theme = document.getElementById("theme");
+      theme.pause();
     }
 
     // const newSpacesOccupied = this.state.spacesOccupied;
