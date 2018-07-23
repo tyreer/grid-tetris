@@ -21,21 +21,20 @@ class TerminoLContainer extends Component {
   componentDidMount() {
     this.constDownwardTimer = setInterval(() => {
       this.moveDown();
-    }, 100);
+    }, 200);
 
     window.addEventListener("keydown", e => this.handleKeydown(e.keyCode));
   }
 
   componentDidUpdate() {
-    //Id of one below current element
+    const { hLength, vLength } = this.props.shapeDimensions;
+    //Id of square below current termino's bottom
 
     let checks = [];
 
-    for (let x = 0; x <= this.props.shapeDimensions.hLength; x++) {
+    for (let x = 0; x <= hLength; x++) {
       const thisCheck = document.getElementById(
-        `col${this.state.column + x}/row${this.state.startingRow +
-          this.props.shapeDimensions.vLength +
-          1}`
+        `col${this.state.column + x}/row${this.state.startingRow + vLength + 1}`
       );
       checks.push(thisCheck);
     }
@@ -70,7 +69,7 @@ class TerminoLContainer extends Component {
         this.setState({ column: newColumn });
       }
     } else if (key === 39) {
-      if (newColumn < 18) {
+      if (newColumn < 17) {
         newColumn = newColumn + 1;
         this.setState({ column: newColumn });
       }

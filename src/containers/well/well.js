@@ -22,7 +22,7 @@ class Well extends Component {
   componentDidMount() {
     let spaces = [];
     for (let row = 1; row <= 29; row++) {
-      for (let col = 2; col <= 20; col++) {
+      for (let col = 2; col <= 19; col++) {
         const style = {
           gridColumn: `${col} / span 1`,
           gridRow: `${row} / span 1`,
@@ -54,7 +54,7 @@ class Well extends Component {
       );
     }
 
-    for (let col = 2; col <= 20; col++) {
+    for (let col = 2; col <= 19; col++) {
       const style = {
         gridColumn: `${col} / span 1`,
         gridRow: `30 / span 1`,
@@ -167,6 +167,50 @@ class Well extends Component {
       next: true,
       terminos: newTerminos
     });
+  };
+
+  componentDidUpdate() {
+    this.checkFull();
+  }
+
+  checkFull = () => {
+    for (let row = 29; row >= 20; row--) {
+      let fullLineCheck = [];
+
+      for (let col = 2; col <= 19; col++) {
+        const thisCheck = document.getElementById(`col${col}/row${row}`);
+
+        if (thisCheck && thisCheck.style.backgroundColor !== "black") {
+          fullLineCheck.push(thisCheck);
+        }
+      }
+      if (fullLineCheck.length === 18) {
+        fullLineCheck.map(square => (square.style.backgroundColor = "black"));
+        this.fullDown();
+      }
+    }
+  };
+
+  fullDown = () => {
+    for (let row = 29; row >= 20; row--) {
+      let greenToMoveDown = [];
+
+      for (let col = 2; col <= 19; col++) {
+        const thisCheck = document.getElementById(`col${col}/row${row}`);
+
+        if (thisCheck && thisCheck.style.backgroundColor !== "black") {
+          greenToMoveDown.push(thisCheck);
+        }
+      }
+      greenToMoveDown.map(square => {
+        const gridArea = square.style.gridArea;
+        const gridArray = gridArea.split("/");
+        const firstValue = gridArea.split("/")[0].trim();
+        const newValue = parseInt(firstValue) + 1;
+        gridArray[0] = newValue;
+        square.style.gridArea = gridArray.join("/");
+      });
+    }
   };
 
   terminoOptions = [{ vLength: 6, hLength: 2 }, { vLength: 4, hLength: 4 }];
