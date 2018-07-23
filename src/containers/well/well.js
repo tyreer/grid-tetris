@@ -85,7 +85,7 @@ class Well extends Component {
   updateOccupied = spacesToOccupy => {
     const { startingRow, height, length, startingColumn } = spacesToOccupy;
 
-    if (startingRow - 1 < height) {
+    if (startingRow < height) {
       this.setState({ gameOver: true });
       const theme = document.getElementById("theme");
       theme.pause();
