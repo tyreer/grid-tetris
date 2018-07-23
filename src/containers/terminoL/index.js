@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { func, number } from "prop-types";
 
 import TerminoL from "../../components/terminoL";
+import move from "../../assets/move.mp3";
+import drop from "../../assets/drop.mp3";
 
 class TerminoLContainer extends Component {
   static propTypes = {
@@ -112,6 +114,8 @@ class TerminoLContainer extends Component {
 
     return (
       <React.Fragment>
+        <audio id="move" src={move} />
+        <audio id="drop" src={drop} />
         {!done.includes(id) && (
           <TerminoL
             startingRow={this.state.startingRow}

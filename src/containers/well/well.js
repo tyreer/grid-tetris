@@ -3,26 +3,19 @@ import "./well.css";
 
 import TerminoLContainer from "../terminoL/index";
 
+import theme from "../../assets/theme.mp3";
+
 class Well extends Component {
   state = {
     spacesOpen: [],
     spacesOccupied: [],
     next: false,
     terminos: [1],
-    gameOver: false
+    gameOver: false,
+    startWait: true
   };
 
-  // RANGE
-  // grid-column: 1 / span 1;
-  // grid-column: 20 / span 1;
-
-  // grid-row: 1 / span 1;
-  // grid-row: 30 / span 1;
-
   componentDidMount() {
-    const theme = document.getElementById("theme");
-    theme.play();
-
     let spaces = [];
     for (let row = 1; row <= 29; row++) {
       for (let col = 2; col <= 19; col++) {
@@ -220,27 +213,42 @@ class Well extends Component {
 
   terminoOptions = [{ vLength: 6, hLength: 2 }, { vLength: 4, hLength: 4 }];
 
+  handleStart = () => {
+    const themeAudio = document.getElementById("theme");
+    themeAudio.play();
+    this.setState({ startWait: false });
+  };
+
   render() {
-    const { gameOver } = this.state;
+    const { gameOver, startWait } = this.state;
     return (
       <React.Fragment>
-        {!gameOver && (
-          <div className="well">
-            {this.state.spacesOpen}
-            {this.state.terminos.map(terminoId => {
-              // console.log(terminoId % 2);
-              // console.log(this.terminoOptions[terminoId % 2]);
-              return (
-                <TerminoLContainer
-                  key={terminoId}
-                  id={terminoId}
-                  updateOccupied={this.updateOccupied}
-                  shapeDimensions={this.terminoOptions[0]}
-                />
-              );
-            })}
-          </div>
+        <audio id="theme" src={theme} />
+        {startWait && (
+          <button className="gameOver" onClick={this.handleStart}>
+            PLAY
+          </button>
         )}
+        {!gameOver &&
+          !startWait && (
+            <div className="well">
+              {this.state.spacesOpen}
+              {this.state.terminos.map(terminoId => {
+                // console.log(terminoId % 2);
+                // console.log(this.terminoOptions[terminoId % 2]);
+                return (
+                  <React.Fragment>
+                    <TerminoLContainer
+                      key={terminoId}
+                      id={terminoId}
+                      updateOccupied={this.updateOccupied}
+                      shapeDimensions={this.terminoOptions[0]}
+                    />
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          )}
         {gameOver && (
           <div className="well">
             <h1 className="gameOver">GAME OVER</h1>
