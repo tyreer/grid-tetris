@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import "./well.css";
 
-import TerminoLContainer from "../terminoL/index";
+import TerminoContainer from "../termino/index";
 
 import theme from "../../assets/theme.mp3";
 
 class Well extends Component {
   state = {
     spacesOpen: [],
-    spacesOccupied: [],
     next: false,
     terminos: [1],
     gameOver: false,
@@ -23,7 +22,7 @@ class Well extends Component {
           gridColumn: `${col} / span 1`,
           gridRow: `${row} / span 1`,
           background: "black",
-          border: "1px solid white"
+          border: "1px dotted #c5fab0"
         };
         spaces.push(
           <span
@@ -86,13 +85,11 @@ class Well extends Component {
   updateOccupied = spacesToOccupy => {
     const { startingRow, height, length, startingColumn } = spacesToOccupy;
 
-    if (startingRow < height) {
+    if (startingRow - 1 < height) {
       this.setState({ gameOver: true });
       const theme = document.getElementById("theme");
       theme.pause();
     }
-
-    // const newSpacesOccupied = this.state.spacesOccupied;
     let newSpacesOpen = this.state.spacesOpen;
 
     for (let row = startingRow; row <= startingRow + height; row++) {
@@ -115,14 +112,6 @@ class Well extends Component {
         />,
         ...newSpacesOpen.slice(squareGoneIndex + 1)
       ];
-
-      // newSpacesOccupied.push(
-      //   <span
-      //     key={`col${startingColumn}/row${row}`}
-      //     id={`col${startingColumn}/row${row}`}
-      //     style={style}
-      //   />
-      // );
     }
 
     for (let col = startingColumn; col <= startingColumn + length - 1; col++) {
@@ -145,14 +134,6 @@ class Well extends Component {
         />,
         ...newSpacesOpen.slice(squareGoneIndex + 1)
       ];
-
-      // newSpacesOccupied.push(
-      //   <span
-      //     key={`col${startingColumn}/row${row}`}
-      //     id={`col${startingColumn}/row${row}`}
-      //     style={style}
-      //   />
-      // );
     }
 
     const newTerminos = this.state.terminos;
@@ -211,6 +192,7 @@ class Well extends Component {
     }
   };
 
+  // To add other shapes
   terminoOptions = [{ vLength: 6, hLength: 2 }, { vLength: 4, hLength: 4 }];
 
   handleStart = () => {
@@ -234,11 +216,9 @@ class Well extends Component {
             <div className="well">
               {this.state.spacesOpen}
               {this.state.terminos.map(terminoId => {
-                // console.log(terminoId % 2);
-                // console.log(this.terminoOptions[terminoId % 2]);
                 return (
                   <React.Fragment>
-                    <TerminoLContainer
+                    <TerminoContainer
                       key={terminoId}
                       id={terminoId}
                       updateOccupied={this.updateOccupied}

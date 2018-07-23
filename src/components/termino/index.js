@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const terminoL = ({ startingRow, column, id, shapeDimensions }) => {
+const termino = ({ startingRow, column, id, shapeDimensions }) => {
   let verticalElementArray = [];
 
   for (let x = 1; x <= shapeDimensions.vLength; x++) {
@@ -52,4 +52,4 @@ const terminoL = ({ startingRow, column, id, shapeDimensions }) => {
   );
 };
 
-export default terminoL;
+export default termino;

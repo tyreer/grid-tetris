@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { func, number } from "prop-types";
 
-import TerminoL from "../../components/terminoL";
+import Termino from "../../components/termino";
 import move from "../../assets/move.mp3";
 import drop from "../../assets/drop.mp3";
 
-class TerminoLContainer extends Component {
+class TerminoContainer extends Component {
   static propTypes = {
     spacesToOccupy: func,
     id: number
@@ -14,7 +14,7 @@ class TerminoLContainer extends Component {
   state = {
     startingRow: 0,
     settled: false,
-    column: Math.floor(Math.random() * 18) + 2,
+    column: Math.floor(Math.random() * 16) + 2,
     done: []
   };
 
@@ -86,19 +86,7 @@ class TerminoLContainer extends Component {
         this.moveAudio.play();
       }
     } else if (key === 32) {
-      //   const newDimensions = this.props.shapeDimensions;
-      //   if (!this.state.rotated) {
-      //     newDimensions.vLength = this.props.shapeDimensions.hLength + 1;
-      //     newDimensions.hLength = this.props.shapeDimensions.vLength + 1;
-      //   } else {
-      //     console.log(this.props.shapeDimensions.hLength);
-      //     newDimensions.hLength = this.props.shapeDimensions.vLength + 1;
-      //     newDimensions.vLength = this.props.shapeDimensions.hLength + 2;
-      //   }
-      //   this.setState({
-      // props.shapeDimensions: newDimensions,
-      //     rotated: !this.state.rotated
-      //   });
+      console.log("Man, sure would be great to rotate rn");
     }
   };
 
@@ -117,7 +105,7 @@ class TerminoLContainer extends Component {
         <audio id="move" src={move} />
         <audio id="drop" src={drop} />
         {!done.includes(id) && (
-          <TerminoL
+          <Termino
             startingRow={this.state.startingRow}
             column={this.state.column}
             id={this.props.id}
@@ -129,4 +117,4 @@ class TerminoLContainer extends Component {
   }
 }
 
-export default TerminoLContainer;
+export default TerminoContainer;
