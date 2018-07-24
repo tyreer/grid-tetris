@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { func, number } from "prop-types";
+import { func, number, object } from "prop-types";
 
 import Termino from "../../components/termino";
 import move from "../../assets/move.mp3";
@@ -8,7 +8,8 @@ import drop from "../../assets/drop.mp3";
 class TerminoContainer extends Component {
   static propTypes = {
     spacesToOccupy: func,
-    id: number
+    id: number,
+    shapeDimensions: object
   };
 
   state = {
@@ -25,7 +26,7 @@ class TerminoContainer extends Component {
   componentDidMount() {
     this.constDownwardTimer = setInterval(() => {
       this.moveDown();
-    }, 200);
+    }, 100000);
 
     window.addEventListener("keydown", e => this.handleKeydown(e.keyCode));
     this.moveAudio = document.getElementById("move");
@@ -51,6 +52,7 @@ class TerminoContainer extends Component {
       if (check.style.backgroundColor !== "black") {
         stop = true;
       }
+      return false;
     });
 
     if (!this.state.settled && stop) {
@@ -71,20 +73,15 @@ class TerminoContainer extends Component {
 
   handleKeydown = key => {
     let newColumn = this.state.column;
-    if (key === 37) {
-      if (newColumn > 2) {
-        newColumn = newColumn - 1;
-        this.setState({ column: newColumn });
-        this.moveAudio.currentTime = 0;
-        this.moveAudio.play();
-      }
-    } else if (key === 39) {
-      if (newColumn < 17) {
-        newColumn = newColumn + 1;
-        this.setState({ column: newColumn });
-        this.moveAudio.currentTime = 0;
-        this.moveAudio.play();
-      }
+    if (key === 37 && newColumn > 2) {
+      newColumn = newColumn - 1;
+      this.setState({ column: newColumn });
+      this.moveAudio.currentTime = 0;
+      this.moveAudio.play();
+    } else if (key === 39 && newColumn < 17) {
+      newColumn = newColumn + 1;
+      this.setState({ column: newColumn });
+      this.moveAudio.currentTime = 0;
     } else if (key === 32) {
       console.log("Man, sure would be great to rotate rn");
     }

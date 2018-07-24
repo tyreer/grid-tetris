@@ -185,9 +185,10 @@ class Well extends Component {
         const gridArea = square.style.gridArea;
         const gridArray = gridArea.split("/");
         const firstValue = gridArea.split("/")[0].trim();
-        const newValue = parseInt(firstValue) + 1;
+        const newValue = parseInt(firstValue, 10) + 1;
         gridArray[0] = newValue;
         square.style.gridArea = gridArray.join("/");
+        return false;
       });
     }
   };
@@ -215,18 +216,14 @@ class Well extends Component {
           !startWait && (
             <div className="well">
               {this.state.spacesOpen}
-              {this.state.terminos.map(terminoId => {
-                return (
-                  <React.Fragment>
-                    <TerminoContainer
-                      key={terminoId}
-                      id={terminoId}
-                      updateOccupied={this.updateOccupied}
-                      shapeDimensions={this.terminoOptions[0]}
-                    />
-                  </React.Fragment>
-                );
-              })}
+              {this.state.terminos.map(terminoId => (
+                <TerminoContainer
+                  key={terminoId}
+                  id={terminoId}
+                  updateOccupied={this.updateOccupied}
+                  shapeDimensions={this.terminoOptions[0]}
+                />
+              ))}
             </div>
           )}
         {gameOver && (
