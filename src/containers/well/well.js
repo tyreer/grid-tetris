@@ -83,73 +83,81 @@ class Well extends Component {
   }
 
   updateOccupied = spacesToOccupy => {
-    const { startingRow, height, length, startingColumn } = spacesToOccupy;
+    if (!this.state.gameOver) {
+      const { startingRow, height, length, startingColumn } = spacesToOccupy;
 
-    if (startingRow < height) {
-      this.setState({ gameOver: true });
-      const theme = document.getElementById("theme");
-      theme.pause();
+      if (startingRow < height) {
+        this.setState({ gameOver: true });
+        const theme = document.getElementById("theme");
+        theme.pause();
+      }
+      let newSpacesOpen = this.state.spacesOpen;
+
+      for (let row = startingRow; row <= startingRow + height; row++) {
+        const style = {
+          gridArea: `${row} / ${startingColumn} / span 1 / span 1`,
+          background: "#c5fab0",
+          border: "1px solid darkgrey"
+        };
+
+        const squareGoneIndex = newSpacesOpen.findIndex(
+          square => square.props.id === `col${startingColumn}/row${row}`
+        );
+
+        newSpacesOpen = [
+          ...newSpacesOpen.slice(0, squareGoneIndex),
+          <span
+            key={`col${startingColumn}/row${row}`}
+            id={`col${startingColumn}/row${row}`}
+            style={style}
+          />,
+          ...newSpacesOpen.slice(squareGoneIndex + 1)
+        ];
+      }
+
+      for (
+        let col = startingColumn;
+        col <= startingColumn + length - 1;
+        col++
+      ) {
+        const style = {
+          gridArea: `${startingRow + height} / ${col} / span 1 / span 1`,
+          background: "#c5fab0",
+          border: "1px solid darkgrey"
+        };
+
+        const squareGoneIndex = newSpacesOpen.findIndex(
+          square => square.props.id === `col${col}/row${startingRow + height}`
+        );
+
+        newSpacesOpen = [
+          ...newSpacesOpen.slice(0, squareGoneIndex),
+          <span
+            key={`col${col}/row${startingRow + height}`}
+            id={`col${col}/row${startingRow + height}`}
+            style={style}
+          />,
+          ...newSpacesOpen.slice(squareGoneIndex + 1)
+        ];
+      }
+
+      const newTerminos = this.state.terminos;
+      const terminoLength = newTerminos.length - 1;
+      const newId = newTerminos[terminoLength] + 1;
+      newTerminos.push(newId);
+
+      this.setState({
+        spacesOpen: newSpacesOpen,
+        next: true,
+        terminos: newTerminos
+      });
     }
-    let newSpacesOpen = this.state.spacesOpen;
-
-    for (let row = startingRow; row <= startingRow + height; row++) {
-      const style = {
-        gridArea: `${row} / ${startingColumn} / span 1 / span 1`,
-        background: "#c5fab0",
-        border: "1px solid darkgrey"
-      };
-
-      const squareGoneIndex = newSpacesOpen.findIndex(
-        square => square.props.id === `col${startingColumn}/row${row}`
-      );
-
-      newSpacesOpen = [
-        ...newSpacesOpen.slice(0, squareGoneIndex),
-        <span
-          key={`col${startingColumn}/row${row}`}
-          id={`col${startingColumn}/row${row}`}
-          style={style}
-        />,
-        ...newSpacesOpen.slice(squareGoneIndex + 1)
-      ];
-    }
-
-    for (let col = startingColumn; col <= startingColumn + length - 1; col++) {
-      const style = {
-        gridArea: `${startingRow + height} / ${col} / span 1 / span 1`,
-        background: "#c5fab0",
-        border: "1px solid darkgrey"
-      };
-
-      const squareGoneIndex = newSpacesOpen.findIndex(
-        square => square.props.id === `col${col}/row${startingRow + height}`
-      );
-
-      newSpacesOpen = [
-        ...newSpacesOpen.slice(0, squareGoneIndex),
-        <span
-          key={`col${col}/row${startingRow + height}`}
-          id={`col${col}/row${startingRow + height}`}
-          style={style}
-        />,
-        ...newSpacesOpen.slice(squareGoneIndex + 1)
-      ];
-    }
-
-    const newTerminos = this.state.terminos;
-    const terminoLength = newTerminos.length - 1;
-    const newId = newTerminos[terminoLength] + 1;
-    newTerminos.push(newId);
-
-    this.setState({
-      spacesOpen: newSpacesOpen,
-      next: true,
-      terminos: newTerminos
-    });
   };
 
   componentDidUpdate() {
-    this.checkFull();
+    if (!this.state.gameOver) {
+      this.checkFull();
+    }
   }
 
   checkFull = () => {
@@ -193,9 +201,6 @@ class Well extends Component {
     }
   };
 
-  // To add other shapes
-  terminoOptions = [{ vLength: 6, hLength: 2 }, { vLength: 4, hLength: 4 }];
-
   handleStart = () => {
     const themeAudio = document.getElementById("theme");
     themeAudio.play();
@@ -221,7 +226,7 @@ class Well extends Component {
                   key={terminoId}
                   id={terminoId}
                   updateOccupied={this.updateOccupied}
-                  shapeDimensions={this.terminoOptions[0]}
+                  gameOver={gameOver}
                 />
               ))}
             </div>
