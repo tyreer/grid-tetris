@@ -60,7 +60,7 @@ class TerminoContainer extends Component {
       let stop = false;
 
       checks.map(check => {
-        if (check && check.style.backgroundColor !== "black") {
+        if (check && check.style.border !== "1px dotted rgb(197, 250, 176)") {
           stop = true;
         }
         return false;

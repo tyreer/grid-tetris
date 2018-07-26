@@ -53,7 +53,7 @@ class Well extends Component {
       const style = {
         gridColumn: `${col} / span 1`,
         gridRow: `30 / span 1`,
-        background: "#000",
+        background: "black",
         color: "#c5fab0",
         textAlign: "center",
         position: "relative"
@@ -87,9 +87,8 @@ class Well extends Component {
       const { startingRow, height, length, startingColumn } = spacesToOccupy;
 
       if (startingRow < height) {
+        document.getElementById("theme").pause();
         this.setState({ gameOver: true });
-        const theme = document.getElementById("theme");
-        theme.pause();
       }
       let newSpacesOpen = this.state.spacesOpen;
 
@@ -172,33 +171,70 @@ class Well extends Component {
         }
       }
       if (fullLineCheck.length === 18) {
-        fullLineCheck.map(square => (square.style.backgroundColor = "black"));
+        fullLineCheck.map(square => {
+          square.style.backgroundColor = "black";
+          square.style.border = "1px dotted #c5fab0";
+        });
         this.fullDown();
       }
     }
   };
 
   fullDown = () => {
-    for (let row = 29; row >= 20; row--) {
-      let greenToMoveDown = [];
+    let newSpacesOpen = this.state.spacesOpen;
+    let greenToMoveDown = [];
+    // let greenNowBlack = [];
 
+    for (let row = 29; row >= 0; row--) {
       for (let col = 2; col <= 19; col++) {
         const thisCheck = document.getElementById(`col${col}/row${row}`);
 
         if (thisCheck && thisCheck.style.backgroundColor !== "black") {
+          // const aboveGreen = document.getElementById(`col${col}/row${row - 1}`);
+          // const belowBlack = document.getElementById(`col${col}/row${row}`);
+          // if (aboveGreen && aboveGreen.style.backgroundColor === "black") {
+          //   console.log(belowBlack);
+
+          //   greenNowBlack.push(belowBlack);
+          // }
           greenToMoveDown.push(thisCheck);
         }
       }
-      greenToMoveDown.map(square => {
-        const gridArea = square.style.gridArea;
-        const gridArray = gridArea.split("/");
-        const firstValue = gridArea.split("/")[0].trim();
-        const newValue = parseInt(firstValue, 10) + 1;
-        gridArray[0] = newValue;
-        square.style.gridArea = gridArray.join("/");
-        return false;
-      });
+
+      // greenNowBlack.map(space => {
+      //   newSpacesOpen.push(...space);
+      // });
     }
+
+    greenToMoveDown.map(square => {
+      // Move down by one in grid style value
+      const gridArea = square.style.gridArea;
+      const gridArray = gridArea.split("/");
+      const firstValue = gridArea.split("/")[0].trim();
+      const newValue = parseInt(firstValue, 10) + 1;
+      gridArray[0] = newValue;
+      square.style.gridArea = gridArray.join("/");
+      square.style.backgroundColor = "#c5fab0";
+
+      // Move down by one in Id
+      // Might want to remove this
+      const oldId = square.id;
+      const oldRow = square.style.gridRowStart - 1;
+      const newRow = parseInt(oldRow, 10) + 1;
+      square.id = oldId.replace(oldRow, newRow);
+
+      // const style = {
+      //   gridColumn: `${square.style.gridColumnStart} / span 1`,
+      //   gridRow: `${oldRow} / span 1`,
+      //   background: "black",
+      //   border: "1px dotted #c5fab0"
+      // };
+
+      // newSpacesOpen.push(<span id={oldId} style={style} />);
+
+      return false;
+    });
+    this.setState({ spacesOpen: newSpacesOpen });
   };
 
   handleStart = () => {
