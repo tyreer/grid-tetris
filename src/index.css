@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Russo+One");
+
 html,
 body {
   height: 100%;
@@ -6,9 +8,13 @@ body {
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
   background: black;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+body,
+button {
+  font-family: "Russo One", sans-serif;
 }
