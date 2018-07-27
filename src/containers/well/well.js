@@ -4,6 +4,7 @@ import "./well.css";
 import TerminoContainer from "../termino/index";
 
 import theme from "../../assets/theme.mp3";
+import gameoverSound from "../../assets/gameover.mp3";
 
 class Well extends Component {
   state = {
@@ -88,6 +89,8 @@ class Well extends Component {
 
       if (startingRow < height) {
         document.getElementById("theme").pause();
+        document.getElementById("gameoverSound").play();
+
         this.setState({ gameOver: true });
       }
       let newSpacesOpen = this.state.spacesOpen;
@@ -248,6 +251,7 @@ class Well extends Component {
     return (
       <React.Fragment>
         <audio id="theme" src={theme} loop />
+        <audio id="gameoverSound" src={gameoverSound} />
         {startWait && (
           <button className="play" onClick={this.handleStart}>
             PLAY

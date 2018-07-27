@@ -4,6 +4,7 @@ import { func, number } from "prop-types";
 import Termino from "../../components/termino";
 import move from "../../assets/move.mp3";
 import drop from "../../assets/drop.mp3";
+import rotate from "../../assets/rotate.mp3";
 
 class TerminoContainer extends Component {
   static propTypes = {
@@ -33,6 +34,7 @@ class TerminoContainer extends Component {
     window.addEventListener("keydown", e => this.handleKeydown(e.keyCode));
     this.moveAudio = document.getElementById("move");
     this.dropAudio = document.getElementById("drop");
+    this.rotateAudio = document.getElementById("rotate");
   }
 
   componentWillUnmount() {
@@ -110,6 +112,8 @@ class TerminoContainer extends Component {
           }
           break;
         case 32:
+          this.rotateAudio.currentTime = 0;
+          this.rotateAudio.play();
           const newRotation =
             this.state.terminoRotation === 1
               ? 0
@@ -131,6 +135,7 @@ class TerminoContainer extends Component {
             terminoRotation: newRotation,
             column: newCol
           });
+
           break;
         case 40:
           this.moveDown();
@@ -155,6 +160,7 @@ class TerminoContainer extends Component {
       <React.Fragment>
         <audio id="move" src={move} />
         <audio id="drop" src={drop} />
+        <audio id="rotate" src={rotate} />
         {!done.includes(id) && (
           <Termino
             startingRow={this.state.startingRow}
