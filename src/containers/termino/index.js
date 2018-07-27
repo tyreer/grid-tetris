@@ -28,7 +28,7 @@ class TerminoContainer extends Component {
   componentDidMount() {
     this.constDownwardTimer = setInterval(() => {
       this.moveDown();
-    }, 100);
+    }, 200);
 
     window.addEventListener("keydown", e => this.handleKeydown(e.keyCode));
     this.moveAudio = document.getElementById("move");
@@ -93,35 +93,50 @@ class TerminoContainer extends Component {
       const shortest = vLength < hLength ? vLength : hLength;
       const midTermino = Math.floor(shortest / 2);
 
-      if (key === 37 && newColumn > 2) {
-        newColumn = newColumn - 1;
-        this.setState({ column: newColumn });
-        this.moveAudio.currentTime = 0;
-        this.moveAudio.play();
-      } else if (key === 39 && newColumn < 19 - hLength) {
-        newColumn = newColumn + 1;
-        this.setState({ column: newColumn });
-        this.moveAudio.currentTime = 0;
-      } else if (key === 32) {
-        const newRotation =
-          this.state.terminoRotation === 1 ? 0 : this.state.terminoRotation + 1;
+      switch (key) {
+        case 37:
+          if (newColumn > 2) {
+            newColumn = newColumn - 1;
+            this.setState({ column: newColumn });
+            this.moveAudio.currentTime = 0;
+            this.moveAudio.play();
+          }
+          break;
+        case 39:
+          if (newColumn < 19 - hLength) {
+            newColumn = newColumn + 1;
+            this.setState({ column: newColumn });
+            this.moveAudio.currentTime = 0;
+          }
+          break;
+        case 32:
+          const newRotation =
+            this.state.terminoRotation === 1
+              ? 0
+              : this.state.terminoRotation + 1;
 
-        let newCol =
-          this.state.terminoRotation === 1
-            ? this.state.column + midTermino
-            : this.state.column - midTermino;
+          let newCol =
+            this.state.terminoRotation === 1
+              ? this.state.column + midTermino
+              : this.state.column - midTermino;
 
-        if (newCol > 20 - vLength) {
-          newCol = 20 - vLength;
-        }
-        if (newCol < 2) {
-          newCol = 2;
-        }
+          if (newCol > 20 - vLength) {
+            newCol = 20 - vLength;
+          }
+          if (newCol < 2) {
+            newCol = 2;
+          }
 
-        this.setState({
-          terminoRotation: newRotation,
-          column: newCol
-        });
+          this.setState({
+            terminoRotation: newRotation,
+            column: newCol
+          });
+          break;
+        case 40:
+          this.moveDown();
+          break;
+        default:
+          return null;
       }
     }
   };
