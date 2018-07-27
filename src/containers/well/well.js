@@ -247,7 +247,7 @@ class Well extends Component {
     const { gameOver, startWait } = this.state;
     return (
       <React.Fragment>
-        <audio id="theme" src={theme} />
+        <audio id="theme" src={theme} loop />
         {startWait && (
           <button className="play" onClick={this.handleStart}>
             PLAY
