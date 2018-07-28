@@ -5,6 +5,9 @@ import TerminoContainer from "../termino/index";
 
 import theme from "../../assets/theme.mp3";
 import gameoverSound from "../../assets/gameover.mp3";
+import move from "../../assets/move.mp3";
+import drop from "../../assets/drop.mp3";
+import rotate from "../../assets/rotate.mp3";
 
 class Well extends Component {
   state = {
@@ -23,7 +26,9 @@ class Well extends Component {
           gridColumn: `${col} / span 1`,
           gridRow: `${row} / span 1`,
           background: "black",
-          border: "1px dotted #c5fab0"
+          border: "1px dotted #c5fab0",
+          position: "relative",
+          zIndex: "10"
         };
         spaces.push(
           <span
@@ -99,7 +104,9 @@ class Well extends Component {
         const style = {
           gridArea: `${row} / ${startingColumn} / span 1 / span 1`,
           background: "#c5fab0",
-          border: "1px solid darkgrey"
+          border: "1px solid darkgrey",
+          position: "relative",
+          zIndex: "100"
         };
 
         const squareGoneIndex = newSpacesOpen.findIndex(
@@ -125,7 +132,9 @@ class Well extends Component {
         const style = {
           gridArea: `${startingRow + height} / ${col} / span 1 / span 1`,
           background: "#c5fab0",
-          border: "1px solid darkgrey"
+          border: "1px solid darkgrey",
+          position: "relative",
+          zIndex: "100"
         };
 
         const squareGoneIndex = newSpacesOpen.findIndex(
@@ -177,6 +186,8 @@ class Well extends Component {
         fullLineCheck.map(square => {
           square.style.backgroundColor = "black";
           square.style.border = "1px dotted #c5fab0";
+          square.style.position = "relative";
+          square.style.zIndex = 10;
         });
         this.fullDown();
       }
@@ -184,11 +195,21 @@ class Well extends Component {
   };
 
   fullDown = () => {
+    // let spaces = [];
+    // for (let row = 1; row <= 29; row++) {
+    //   for (let col = 2; col <= 19; col++) {
+    //     const square = document.getElementById(`col${col}/row${row}`);
+    //     square.style.gridRow = row + 1;
+    //     square.key = `col${col}/row${row + 1}`;
+    //     square.id = `col${col}/row${row + 1}`;
+    //   }
+    // }
+
     let newSpacesOpen = this.state.spacesOpen;
     let greenToMoveDown = [];
     // let greenNowBlack = [];
 
-    for (let row = 29; row >= 0; row--) {
+    for (let row = 0; row <= 29; row++) {
       for (let col = 2; col <= 19; col++) {
         const thisCheck = document.getElementById(`col${col}/row${row}`);
 
@@ -217,7 +238,9 @@ class Well extends Component {
       const newValue = parseInt(firstValue, 10) + 1;
       gridArray[0] = newValue;
       square.style.gridArea = gridArray.join("/");
-      square.style.backgroundColor = "#c5fab0";
+      square.style.background = "#c5fab0";
+      square.style.position = "relative";
+      square.style.zIndex = 100;
 
       // Move down by one in Id
       // Might want to remove this
@@ -252,6 +275,9 @@ class Well extends Component {
       <React.Fragment>
         <audio id="theme" src={theme} loop />
         <audio id="gameoverSound" src={gameoverSound} />
+        <audio id="move" src={move} />
+        <audio id="drop" src={drop} />
+        <audio id="rotate" src={rotate} />
         {startWait && (
           <button className="play" onClick={this.handleStart}>
             PLAY

@@ -9,7 +9,9 @@ const termino = ({ startingRow, column, id, shapeDimensions }) => {
       gridColumn: `${column} / span 1`,
       gridRow: `${x + startingRow} / span 1`,
       background: "#c5fab0",
-      border: "1px solid darkgrey"
+      border: "1px solid darkgrey",
+      position: "relative",
+      zIndex: "100"
     };
 
     verticalElementArray.push(
@@ -30,7 +32,9 @@ const termino = ({ startingRow, column, id, shapeDimensions }) => {
       gridColumn: `${column + x} / span 1`,
       gridRow: `${startingRow + shapeDimensions.vLength} / span 1`,
       background: "#c5fab0",
-      border: "1px solid darkgrey"
+      border: "1px solid darkgrey",
+      position: "relative",
+      zIndex: "100"
     };
 
     horizontalElementArray.push(

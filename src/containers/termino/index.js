@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { func, number } from "prop-types";
 
 import Termino from "../../components/termino";
-import move from "../../assets/move.mp3";
-import drop from "../../assets/drop.mp3";
-import rotate from "../../assets/rotate.mp3";
 
 class TerminoContainer extends Component {
   static propTypes = {
@@ -158,9 +155,6 @@ class TerminoContainer extends Component {
 
     return (
       <React.Fragment>
-        <audio id="move" src={move} />
-        <audio id="drop" src={drop} />
-        <audio id="rotate" src={rotate} />
         {!done.includes(id) && (
           <Termino
             startingRow={this.state.startingRow}
